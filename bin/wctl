@@ -1,0 +1,163 @@
+#!/usr/bin/env bash
+
+# Guards
+set -euo pipefail
+
+# Global params
+readonly PROG=$(basename "$0")
+readonly VERSION="1.0.0"
+
+# Usage
+usage() {
+	cat <<EOF
+usage: $PROG --help
+       $PROG [optional arguments] <SSID>
+
+A Bash wrapper for easy wi-fi toggling
+
+positional arguments:
+  SSID           network ssid
+
+options:
+  -h, --help     show this help message and exit
+  -v, --version  show program's version number and exit
+  -s, --status   prints status of wi-fi (enabled/disabled)
+  -o, --on       turns on wi-fi if currently is off
+  -f, --off      turns off wi-fi if currently is on
+  -t, --toggle   toggle between on/off
+  -c, --connect  connect to a wi-fi network with SSID
+EOF
+}
+
+version() {
+    echo "$PROG $VERSION"
+}
+
+isInstalled() {
+    local prog="$1"
+    command -v "$prog" >/dev/null 2>&1 || {
+        echo "Error: $PROG is not installed!" >&2
+        exit 1
+    }
+}
+
+# States
+stat_() { 
+    nmcli radio wifi
+}
+
+on_() {
+    nmcli radio wifi on
+    echo "Wi-Fi turned on!"
+}
+
+off_() {
+    nmcli radio wifi off
+    echo "Wi-Fi turned off!"
+}
+
+toggle_() {
+    local current=$(nmcli radio wifi)
+    if [ "$current" = "enabled" ]; then
+        nmcli radio wifi off
+        echo "Wi-Fi toggled off!"
+    else
+        nmcli radio wifi on
+        echo "Wi-Fi toggled on!"
+    fi
+}
+
+connect_() {
+    local ssid="$1"
+    if [ -z "$ssid" ]; then
+        echo "Error: provide SSID to connect!" >&2
+        exit 1
+    fi
+    nmcli device wifi connect "$ssid"
+}
+
+# Main function
+main() {
+    isInstalled nmcli
+	local opt=""
+	local ssid=""
+	while [[ $# -gt 0 ]]; do
+    	case "$1" in
+	    	-s|--status)
+				opt="status"
+				shift
+				;;
+	    	-o|--on)
+				opt="on"
+				shift
+				;;
+	    	-f|--off)
+				opt="off"
+				shift
+				;;
+	    	-t|--toggle)
+				opt="toggle"
+				shift
+				;;
+	    	-c|--connect)
+				opt="connect"
+				shift
+				ssid="${1:-}"
+				shift
+				;;
+        	-h|--help)
+				usage
+				exit 0
+				;;
+        	-v|--version)
+				version
+				exit 0
+				;;
+			-*)
+				echo "unknown option: $1" >&2
+				usage
+				exit 1
+				;;
+			*)
+				ssid="$1"
+				shift
+				;;
+    	esac
+	done
+	
+	# Check arguments
+	if [[ -z "$opt" ]]; then
+		if [[ -n "$ssid" ]]; then
+			opt="connect"
+		else
+			usage
+			exit 1
+		fi
+	fi
+
+	# Execute the selection
+	case "$opt" in
+		status)
+			stat_
+			;;
+		on)
+			on_
+			;;
+		off)
+			off_
+			;;
+		toggle)
+			toggle_
+			;;
+		connect)
+			connect_ "$ssid"
+			;;
+		*)
+			usage
+			;;
+	esac
+}
+
+
+# Entry point
+main "$@"
