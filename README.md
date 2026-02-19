@@ -30,37 +30,37 @@ To uninstall use `make uninstall` from the source directory.
 
 ## Usage
 
-### Show help
+#### Show help
 
 ```
 wctl --help
 ```
 
-### Show version
+#### Show version
 
 ```
 wctl --version
 ```
 
-### Check Wi-Fi status
+#### Check Wi-Fi status
 
 ```
 wctl --status
 ```
 
-### Turn Wi-Fi on/off
+#### Turn Wi-Fi on/off
 
 ```
 wctl --on/--off
 ```
 
-### Toggle Wi-Fi
+#### Toggle Wi-Fi
 
 ```
 wctl --toggle
 ```
 
-### Connect to a network
+#### Connect to a network
 
 ```
 wctl --connect MySSID
