@@ -2,8 +2,8 @@
 	<h1>wctl</h1>
 	<h3>A Bash utility for Wi-Fi toggling on *nix laptops</h3>
 	<a href="https://github.com/dasprosad/wctl/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-GPLv3-orange.svg" alt="License"></a>
-	<a href="https://github.com/dasprosad/wctl/releases"><img src="https://img.shields.io/github/v/release/dasprosad/wctl?logo=github&logoColor=white"></a>
-	<a href="https://www.kernel.org/"><img src="https://img.shields.io/badge/OS-Linux-FCC624?logo=linux&logoColor=black" alt="Linux"></a>
+	<a href="https://github.com/dasprosad/wctl/releases"><img src="https://img.shields.io/github/v/release/dasprosad/wctl?logo=github&logoColor=white" alt="Releases"></a>
+	<a href="https://www.kernel.org/"><img src="https://img.shields.io/badge/OS-Linux-FCC624?logo=linux&logoColor=white" alt="Linux"></a>
 </div>
 
 ## Motivation
