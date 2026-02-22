@@ -69,3 +69,5 @@ wctl --connect MySSID
 ## License
 
 `wctl` is distributed under the GNU Public License v3 (GPLv3)
+
+![GPLv3 logo](https://gnu.org/graphics/gplv3-127x51.png "GNU General Public License, version 3")
